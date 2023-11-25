@@ -9,54 +9,20 @@ The Real-time Trading Agent is an auto-trading bot project that utilizes reinfor
 - Reinforcement learning-based auto-trading bot.
 - Simulation of streaming data using historical price data.
 - Integration with Apache Kafka for data streaming.
+- Data warehouse with Apache Cassandra.
 - Data crawled from Cafef for historical price information.
 
 ## Dependencies
 
-- Python 3.x
-- [Apache Kafka](https://kafka.apache.org/)
-- [Reinforcement Learning Library (e.g., TensorFlow, PyTorch)](https://github.com/openai/gym)
-- Other dependencies specified in `requirements.txt`
+Todo
 
 ## Installation
 
-1. **Clone the repository:**
-
-    ```bash
-    git clone https://github.com/yourusername/real-time-trading-agent.git
-    ```
-
-2. **Install dependencies:**
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. **Set up and configure Apache Kafka.**
-
-4. **Run the project:**
-
-    ```bash
-    python main.py
-    ```
-
-## Configuration
-
-- Modify the configuration file (`config.yaml`) to specify trading parameters, Kafka broker information, and other settings.
+Todo
 
 ## Usage
 
-1. **Train the reinforcement learning model:**
-
-    ```bash
-    python train_model.py
-    ```
-
-2. **Run the real-time trading agent:**
-
-    ```bash
-    python main.py
-    ```
+Todo
 
 ## Contributing
 
@@ -64,15 +30,15 @@ Contributions are welcome! Please follow the [contribution guidelines](CONTRIBUT
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Todo
 
 ## Acknowledgments
 
-- Thanks to [Cafef](https://www.cafef.vn/) for providing historical price data.
+Todo
 
 ## Contact
 
 For any inquiries or issues, please contact:
 
-- Your Name
-- Your Email
+- Dam Viet Anh 
+- anh.dv204627@sis.hust.edu.vn
