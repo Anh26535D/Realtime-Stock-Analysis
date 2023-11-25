@@ -14,27 +14,27 @@ The Real-time Trading Agent is an auto-trading bot project that utilizes reinfor
 
 ## Dependencies
 
-Todo
+TODO
 
 ## Installation
 
-Todo
+TODO
 
 ## Usage
 
-Todo
+TODO
 
 ## Contributing
 
-Contributions are welcome! Please follow the [contribution guidelines](CONTRIBUTING.md).
+TODO
 
 ## License
 
-Todo
+TODO
 
 ## Acknowledgments
 
-Todo
+TODO
 
 ## Contact
 

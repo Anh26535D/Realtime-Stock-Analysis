@@ -1,6 +1,5 @@
 from datetime import timedelta
 import time
-import os
 
 import pandas as pd
 from tqdm import tqdm
@@ -17,11 +16,9 @@ crawler = HistoricalPriceCafef()
 symbols = pd.read_csv('data/list_companies.csv')['Mã CK▲']
 symbols = ['AAA']
 
-# Configure Kafka producer
 producer_config = {
     'bootstrap.servers': 'localhost:9092',
 }
-
 producer = Producer(producer_config)
 
 kafka_topic = 'historical price'
