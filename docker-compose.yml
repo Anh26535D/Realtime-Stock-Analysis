@@ -55,7 +55,20 @@ services:
     depends_on:
       - kafka
       - zookeeper
-      
+
+  postgresql:
+      image: docker.io/bitnami/postgresql
+      container_name: postgresql
+      ports:
+        - "5432:5432"
+      volumes:
+        - "postgresql_data:/bitnami/postgresql"
+      environment:
+        - POSTGRESQL_POSTGRES_PASSWORD=admin
+        - POSTGRESQL_USERNAME=${POSTGRES_USER}
+        - POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+        - POSTGRESQL_DATABASE=${POSTGRES_DB}
+    
 volumes:
 
   cassandra_data:
@@ -65,4 +78,7 @@ volumes:
     driver: local
 
   kafka_data:
+    driver: local
+
+  postgresql_data:
     driver: local

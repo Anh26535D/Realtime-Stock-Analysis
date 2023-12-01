@@ -30,7 +30,7 @@ class VietStock():
         '''Reset web driver '''
         edge_options = webdriver.EdgeOptions()
         edge_options.add_argument('--start-maximized')
-        # edge_options.add_argument('--headless')
+        edge_options.add_argument('--headless')
         self.driver = webdriver.Edge(options=edge_options)
 
 
