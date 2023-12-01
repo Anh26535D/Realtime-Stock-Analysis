@@ -1,16 +1,12 @@
-# Real-time Trading Agent
+# Real-time Stock Analysis
 
 ## Overview
 
-The Real-time Trading Agent is an auto-trading bot project that utilizes reinforcement learning to make trading decisions based on historical price data. The project simulates streaming data by leveraging Apache Kafka and processes historical price data crawled from Cafef.
+TODO
 
 ## Features
 
-- Reinforcement learning-based auto-trading bot.
-- Simulation of streaming data using historical price data.
-- Integration with Apache Kafka for data streaming.
-- Data warehouse with Apache Cassandra.
-- Data crawled from Cafef for historical price information.
+TODO
 
 ## Dependencies
 
