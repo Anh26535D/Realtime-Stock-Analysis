@@ -34,11 +34,13 @@ This project requires the following dependencies and tools:
    Open two terminals for running the producer and consumer:
    ```
    python historical_price_consumer.py
-
+   ```
+   
+   ```
    python historical_price_producer.py
    ```
 
-   The data will be stored in a PostgreSQL database. You can use a tool like DBeaver or psql to inspect the database. For download DBeaver, see (https://dbeaver.io/download/)[https://dbeaver.io/download/]. This is the command to use access psql:
+   The data will be stored in a PostgreSQL database. You can use a tool like DBeaver or psql to inspect the database. For download DBeaver, see [here](https://dbeaver.io/download/). This is the command to use access psql:
    ```
    docker exec -it [container-postgresql-id] psql -U [user_name] -d [database_name]
    ```
