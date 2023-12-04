@@ -2,17 +2,32 @@ version: "2"
 
 services:
 
-  cassandra:
-    container_name: cassandra
-    image: bitnami/cassandra:latest
+  spark-master:
+    image: bitnami/spark:3.4.2
+    container_name: spark-master
     ports:
-      - "7000:7000"
-    volumes:
-      - "cassandra_data:/bitnami"
+      - "8080:8080"
+      - "7077:7077"
     environment:
-      - CASSANDRA_TRANSPORT_PORT_NUMBER=7000
-      - CASSANDRA_USER=cassandra
-      - CASSANDRA_PASSWORD=cassandra
+      - SPARK_MODE=master
+
+  spark-worker-1:
+    image: bitnami/spark:3.4.2
+    container_name: spark-worker-1
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    depends_on:
+      - spark-master
+
+  spark-worker-2:
+    image: bitnami/spark:3.4.2
+    container_name: spark-worker-2
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    depends_on:
+      - spark-master
 
   zookeeper:
     container_name: zookeeper
@@ -70,9 +85,6 @@ services:
         - POSTGRESQL_DATABASE=${POSTGRES_DB}
     
 volumes:
-
-  cassandra_data:
-    driver: local
 
   zookeeper_data:
     driver: local

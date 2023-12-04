@@ -4,21 +4,54 @@
 
 TODO
 
-## Features
+## Requirements
 
-TODO
+This project requires the following dependencies and tools:
 
-## Dependencies
+- **Python 3.9**: This project uses python 3.9.13, you can use other versions that are similar to.
+- **Docker Desktop**: Containerization platform that allows you to build, ship, and run applications in containers.
 
-TODO
+## Setup
 
-## Installation
+1. **Clone the Repository**
+   ```
+   git clone https://github.com/Anh26535D/Realtime-Stock-Analysis.git
+   cd Realtime-Stock-Analysis
+   ```
 
-TODO
+2. **Install python libraries**
+   ```
+   python3 -m pip install -r requirements.txt
+   ```
+
+3. **Run docker-compose**
+   ```
+   docker compose up
+   ```
+
+4. **Run producer and consumer**
+
+   Open two terminals for running the producer and consumer:
+   ```
+   python historical_price_consumer.py
+
+   python historical_price_producer.py
+   ```
+
+   The data will be stored in a PostgreSQL database. You can use a tool like DBeaver or psql in the terminal to inspect the database.
+   ```
+   docker exec -it [container-postgresql-id] psql -U [user_name] -d [database_name]
+   ```
+
+   Replace [container-postgresql-id], [user_name], and [database_name] with the appropriate values in the .env file. You can find the PostgreSQL container ID using:
+   ```
+   docker ps
+   ```
 
 ## Usage
 
 TODO
+
 
 ## Contributing
 
