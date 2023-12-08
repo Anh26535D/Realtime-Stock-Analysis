@@ -29,7 +29,7 @@ This project requires the following dependencies and tools:
    make docker-up
    ```
 
-4. **Run crawl listing companies [OPTINAL]**
+4. **Run crawl listing companies [OPTIONAL]**
    ```
    make run-list-company
    ```
