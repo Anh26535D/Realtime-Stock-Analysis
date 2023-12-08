@@ -6,10 +6,13 @@ services:
     image: bitnami/spark:3.4.2
     container_name: spark-master
     ports:
-      - "8080:8080"
+      - "8888:8888"
       - "7077:7077"
+    volumes:
+      - "spark_master_data:/bitnami"
     environment:
       - SPARK_MODE=master
+      - SPARK_MASTER_WEBUI_PORT=8888
 
   spark-worker-1:
     image: bitnami/spark:3.4.2
@@ -17,6 +20,10 @@ services:
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1024m
+    volumes:
+      - "spark_worker1_data:/bitnami"
     depends_on:
       - spark-master
 
@@ -26,6 +33,10 @@ services:
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1024m
+    volumes:
+      - "spark_worker2_data:/bitnami"
     depends_on:
       - spark-master
 
@@ -71,6 +82,18 @@ services:
       - kafka
       - zookeeper
 
+  schema-registry:
+    image: confluentinc/cp-schema-registry:3.3.1
+    container_name: schema-registry
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+    depends_on:
+      - zookeeper
+      - kafka
+
   postgresql:
       image: docker.io/bitnami/postgresql
       container_name: postgresql
@@ -85,6 +108,15 @@ services:
         - POSTGRESQL_DATABASE=${POSTGRES_DB}
     
 volumes:
+
+  spark_master_data:
+    driver: local
+
+  spark_worker1_data:
+    driver: local
+
+  spark_worker2_data:
+    driver: local
 
   zookeeper_data:
     driver: local

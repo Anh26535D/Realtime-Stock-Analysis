@@ -26,18 +26,18 @@ This project requires the following dependencies and tools:
 
 3. **Run docker-compose**
    ```
-   docker compose up
+   make docker-up
    ```
 
-4. **Run producer and consumer**
+4. **Run crawl listing companies [OPTINAL]**
+   ```
+   make run-list-company
+   ```
 
-   Open two terminals for running the producer and consumer:
+5. **Run producer and consumer**
+
    ```
-   python historical_price_consumer.py
-   ```
-   
-   ```
-   python historical_price_producer.py
+   make run-app
    ```
 
    The data will be stored in a PostgreSQL database. You can use a tool like DBeaver or psql to inspect the database. For download DBeaver, see [here](https://dbeaver.io/download/). This is the command to use access psql:
