@@ -1,9 +1,12 @@
 version: "2"
 
+networks:
+  bridge:
+
 services:
 
   spark-master:
-    image: bitnami/spark:3.4.2
+    image: docker.io/bitnami/spark:3.3
     container_name: spark-master
     ports:
       - "8888:8888"
@@ -15,7 +18,7 @@ services:
       - SPARK_MASTER_WEBUI_PORT=8888
 
   spark-worker-1:
-    image: bitnami/spark:3.4.2
+    image: docker.io/bitnami/spark:3.3
     container_name: spark-worker-1
     environment:
       - SPARK_MODE=worker
@@ -28,7 +31,7 @@ services:
       - spark-master
 
   spark-worker-2:
-    image: bitnami/spark:3.4.2
+    image: docker.io/bitnami/spark:3.3
     container_name: spark-worker-2
     environment:
       - SPARK_MODE=worker

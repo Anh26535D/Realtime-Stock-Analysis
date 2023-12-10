@@ -17,3 +17,6 @@ run-list-company:
 
 run-app:
 	start cmd /k make run-consumer && start cmd /k make run-producer
+
+spark-submit:
+	start cmd /k make run-producer && start cmd /k docker run spark_kafka_consumer
