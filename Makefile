@@ -1,5 +1,11 @@
 .PHONY: docker-up docker-down run-consumer run-producer run-app
 
+build-producer:
+	docker build -t stock-producer .
+
+restart:
+	docker-compose down && docker-compose --env-file .\.env up -d --remove-orphans --build && docker ps
+
 docker-up:
 	docker compose up
 

@@ -1,4 +1,7 @@
+import sys
+sys.path.append('/app')
 from datetime import timedelta
+from datetime import datetime
 import time
 import json
 import os
@@ -6,7 +9,7 @@ import datetime
 
 import pandas as pd
 from tqdm import tqdm
-from kafka import KafkaProducer
+from confluent_kafka import Producer
 
 from crawler.CafeF import HistoricalPriceCafef
 from utils.logger.DateMappingLogger import DateMappingLogger
@@ -33,14 +36,18 @@ def get_latest_data() -> pd.DataFrame:
 
 
 
-date_logger = DateMappingLogger(r'logs\date_logs\datemapping.log')
+date_logger = DateMappingLogger(r'/app/logs/date_logs/datemapping.log')
 crawler = HistoricalPriceCafef()
 
 listing_data = get_latest_data()
 symbols = listing_data['symbol']
 symbols = ['AAA']
 
-producer = KafkaProducer(bootstrap_servers='localhost:9093')
+kafka_bootstrap_servers = "kafka:9092"
+kafka_config = {
+    "bootstrap.servers": kafka_bootstrap_servers,
+}
+producer = Producer(kafka_config)
 kafka_topic = 'historical_price'
 
 for day in tqdm(range(MAX_DAY)):
@@ -50,7 +57,7 @@ for day in tqdm(range(MAX_DAY)):
             start_date=date_logger.latest_system_time,
             end_date=date_logger.latest_system_time
         )
-
+        print(data)
         message_value = {
             'stock_symbol': symbol,
             'date': None,
@@ -84,13 +91,14 @@ for day in tqdm(range(MAX_DAY)):
                     if pd.isnull(value):
                         message_value[key] = None
 
-                producer.send(kafka_topic, value=json.dumps(message_value).encode('utf-8'))
+                producer.produce(kafka_topic, value=json.dumps(message_value).encode('utf-8'))
         else:
-            producer.send(kafka_topic, value=json.dumps(message_value).encode('utf-8'))
+            producer.produce(kafka_topic, value=json.dumps(message_value).encode('utf-8'))
         
-    time.sleep(1)
+    time.sleep(3)
     date_logger.latest_system_time = date_logger.latest_system_time + timedelta(days=1)
     date_logger.log_time_system()
 
+producer.flush()
 producer.close()
 date_logger.close()
