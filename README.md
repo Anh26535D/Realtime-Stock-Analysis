@@ -8,6 +8,7 @@ TODO
 
 This project requires the following dependencies and tools:
 
+- **Make**: (download here)[https://gnuwin32.sourceforge.net/packages/make.htm]
 - **Python 3.9**: This project uses python 3.9.13, you can use other versions that are similar to.
 - **Docker Desktop**: Containerization platform that allows you to build, ship, and run applications in containers.
 
@@ -19,25 +20,16 @@ This project requires the following dependencies and tools:
    cd Realtime-Stock-Analysis
    ```
 
-2. **Install python libraries**
+2. **Run crawl listing companies [OPTIONAL]**
    ```
-   python3 -m pip install -r requirements.txt
-   ```
-
-3. **Run docker-compose**
-   ```
-   make docker-up
-   ```
-
-4. **Run crawl listing companies [OPTIONAL]**
-   ```
+   mkdir data
    make run-list-company
    ```
 
-5. **Run producer and consumer**
+3. **Run app**
 
    ```
-   make run-app
+   docker compose up
    ```
 
    The data will be stored in a PostgreSQL database. You can use a tool like DBeaver or psql to inspect the database. For download DBeaver, see [here](https://dbeaver.io/download/). This is the command to use access psql:
@@ -48,6 +40,11 @@ This project requires the following dependencies and tools:
    Replace [container-postgresql-id], [user_name], and [database_name] with the appropriate values in the .env file. You can find the PostgreSQL container ID using:
    ```
    docker ps
+   ```
+
+4. **Restart docker container [OPTIONAL]**
+   ```
+   make restart
    ```
 
 ## Usage

@@ -20,7 +20,7 @@ packages = [
 
 if __name__ == "__main__":
     spark = (
-        SparkSession.builder.appName("KafkaInfluxDBStreaming")
+        SparkSession.builder.appName("StockPriceConsumer")
         .master("spark://spark-master:7077")
         .config("spark.jars.packages", ",".join(packages))
         .getOrCreate()

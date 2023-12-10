@@ -1,4 +1,4 @@
-.PHONY: docker-up docker-down run-consumer run-producer run-app
+.PHONY: build-producer restart run-listing
 
 build-producer:
 	docker build -t stock-producer .
@@ -6,23 +6,6 @@ build-producer:
 restart:
 	docker-compose down && docker-compose --env-file .\.env up -d --remove-orphans --build && docker ps
 
-docker-up:
-	docker compose up
+run-listing:
+	python run_crawl_listing_companies.py
 
-docker-down:
-	docker compose down
-
-run-consumer:
-	python historical_price_consumer.py
-
-run-producer:
-	python historical_price_producer.py
-
-run-list-company:
-	python run_crawl_listing_company.py
-
-run-app:
-	start cmd /k make run-consumer && start cmd /k make run-producer
-
-spark-submit:
-	start cmd /k make run-producer && start cmd /k docker run spark_kafka_consumer
