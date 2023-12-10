@@ -8,7 +8,7 @@ TODO
 
 This project requires the following dependencies and tools:
 
-- **Make**: (download here)[https://gnuwin32.sourceforge.net/packages/make.htm]
+- **Make**: [download here](https://gnuwin32.sourceforge.net/packages/make.htm)
 - **Python 3.9**: This project uses python 3.9.13, you can use other versions that are similar to.
 - **Docker Desktop**: Containerization platform that allows you to build, ship, and run applications in containers.
 
