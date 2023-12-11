@@ -47,9 +47,22 @@ This project requires the following dependencies and tools:
    make restart
    ```
 
-## Usage
+## Note
 
-TODO
+Docker Desktop for Windows v2, which uses WSL2, stores all image and container files in a separate virtual volume (vhdx). This virtual hard disk file can automatically grow when it needs more space (to a certain limit). Unfortunately, if you reclaim some space, i.e. by removing unused images, vhdx doesn't shrink automatically. You can try to reduce its size manually by calling this command in PowerShell (as Administrator). Assume your path to (vhdx) file is "C:\Users\{user_name}\AppData\Local\Docker\wsl\data\ext4.vhdx":
+   ```
+   Optimize-VHD -Path "YOUR_PATH" -Mode Full
+   ```
+Or trying this
+   ```
+   wsl --shutdown
+   diskpart
+   select vdisk file="YOURPATH"
+   attach vdisk readonly
+   compact vdisk
+   detach vdisk
+   exit
+   ```
 
 
 ## Contributing
