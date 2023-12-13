@@ -98,7 +98,7 @@ services:
       image: docker.io/bitnami/postgresql
       container_name: postgresql
       ports:
-        - "5432:5432"
+        - "15432:5432"
       volumes:
         - "postgresql_data:/bitnami/postgresql"
       environment:
