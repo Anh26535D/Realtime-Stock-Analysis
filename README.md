@@ -26,7 +26,12 @@ This project requires the following dependencies and tools:
 
 3. **Run docker-compose**
    ```
-   make docker-up
+   docker-compose up
+   ```
+
+4. **Init folder**
+   ```
+   make init
    ```
 
 4. **Run crawl listing companies [OPTIONAL]**
