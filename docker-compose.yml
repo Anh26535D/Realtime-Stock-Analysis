@@ -37,14 +37,14 @@ services:
       - bridge
 
   kafka-ui:
-    container_name: kafka-ui
     image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
     ports:
-      - 8080:8080
-    environment:
-      - DYNAMIC_CONFIG_ENABLED=true
+      - "8080:8080"
     volumes:
       - "./mount_tools/kafka_ui/config.yml:/etc/kafkaui/dynamic_config.yaml"
+    environment:
+      - DYNAMIC_CONFIG_ENABLED=true
     depends_on:
       - kafka
     networks:
@@ -77,6 +77,8 @@ services:
   spark-submit:
     image: docker.io/bitnami/spark:3.3
     container_name: spark_submit
+    volumes:
+      - ./:/app/
     environment:
       SPARK_MODE: worker
       SPARK_MASTER_URL: spark://spark-master:7077
@@ -87,13 +89,11 @@ services:
       SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
       SPARK_SSL_ENABLED: no
       SPARK_USER: spark
-    volumes:
-      - ./:/app/
     command: 
       - "sh"
       - "-c"
       - |
-        pip install findspark==2.0.1 pyspark==3.5.0
+        pip install -r /app/consumers/requirements.txt
         spark-submit --master spark://spark-master:7077 --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.3 /app/consumers/spark_stream_consumer.py
     depends_on:
       - spark-master
@@ -153,6 +153,27 @@ services:
         - bridge
 
   #############################################################################################
+  # InfluxDB
+  #############################################################################################
+  influxdb:
+    image: docker.io/influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - "influxdb_data:/var/lib/influxdb2"
+      - "./mount_tools/influxdb/config.yml:/etc/influxdb2/config.yml"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUX_TOKEN}
+    networks:
+      - bridge
+
+  #############################################################################################
   # Stock Producer
   #############################################################################################
   stock-producer:
@@ -161,8 +182,6 @@ services:
     build: .
     ports:
      - "5000:5000"
-    # environment:
-    #   STOCKS: ${STOCKS}
     volumes:
       - ./:/app/
     networks:
@@ -176,4 +195,7 @@ volumes:
     driver: local
 
   postgresql_data:
+    driver: local
+
+  influxdb_data:
     driver: local

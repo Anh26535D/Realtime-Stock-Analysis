@@ -32,15 +32,11 @@ This project requires the following dependencies and tools:
    docker compose up
    ```
 
-   The data will be stored in a PostgreSQL database. You can use a tool like DBeaver or psql to inspect the database. For download DBeaver, see [here](https://dbeaver.io/download/). This is the command to use access psql:
-   ```
-   docker exec -it [container-postgresql-id] psql -U [user_name] -d [database_name]
-   ```
-
-   Replace [container-postgresql-id], [user_name], and [database_name] with the appropriate values in the .env file. You can find the PostgreSQL container ID using:
-   ```
-   docker ps
-   ```
+   After run app, waiting for containers starting.
+   You can access:
+    - kafka-ui via port 8080, 
+    - spark master ui via port 8888
+    - influxdb via port 8086
 
 4. **Restart docker container [OPTIONAL]**
    ```

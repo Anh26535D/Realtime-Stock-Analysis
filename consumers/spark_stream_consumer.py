@@ -1,5 +1,6 @@
 import sys
 sys.path.append("/app")
+import os
 
 import findspark
 findspark.init()
@@ -7,6 +8,10 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from pyspark.sql.types import StructType, StructField, StringType
+from dotenv import load_dotenv
+load_dotenv()
+
+from InfluxDBWriter import InfluxDBWriter
 
 KAFKA_TOPIC_NAME = "historical_price"
 KAFKA_BOOTSTRAP_SERVERS = "kafka:9092"
@@ -17,6 +22,12 @@ packages = [
     f'org.apache.spark:spark-sql-kafka-0-10_{scala_version}:{spark_version}',
     'org.apache.kafka:kafka-clients:3.4.0'
 ]
+
+token = os.environ.get("INFLUX_TOKEN")
+host = "http://influxdb:8086"
+bucket = os.environ.get("INFLUX_BUCKET")
+measurement = "stock_price"
+org = os.environ.get("INFLUX_ORG")
 
 if __name__ == "__main__":
     spark = (
@@ -56,11 +67,34 @@ if __name__ == "__main__":
 
     stockDataframe = inputStream.select(from_json(col("data"), stock_price_schema).alias("stock_price"))
     expandedDf = stockDataframe.select("stock_price.*")
+    influxdb_writer = InfluxDBWriter(
+        url=host,
+        token=token,
+        bucket=bucket,
+        measurement=measurement,
+        org=org,
+    )
 
     def process_batch(batch_df, batch_id):
+        print(f"Processing batch {batch_id}")
         realtimeStockPrices = batch_df.select("stock_price.*")
         for realtimeStockPrice in realtimeStockPrices.collect():
-            print(realtimeStockPrice)
+            timestamp = realtimeStockPrice["date"]
+            tags = {"stock_symbol": realtimeStockPrice["stock_symbol"]}
+            fields = {
+                "open": realtimeStockPrice['open'],
+                "close": realtimeStockPrice['close'],
+                "high": realtimeStockPrice['high'],
+                "low": realtimeStockPrice['low'],
+                "volume": realtimeStockPrice['volume'],
+                "adjusted_price": realtimeStockPrice['adjusted_price'],
+                "change": realtimeStockPrice['change'],
+                "trading_value": realtimeStockPrice['trading_value'],
+                "negotiated_volume": realtimeStockPrice['negotiated_volume'],
+                "negotiated_value": realtimeStockPrice['negotiated_value']
+            }
+            influxdb_writer.process(timestamp, tags, fields)
+            print(f"Writing to InfluxDB: {timestamp} | {tags} | {fields}")
 
     query = stockDataframe \
         .writeStream \
